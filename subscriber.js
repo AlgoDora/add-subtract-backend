@@ -1,0 +1,30 @@
+const {PubSub} = require('@google-cloud/pubsub');
+
+const pubSubClient = new PubSub({
+    keyFilename: './add-subtract-key.json',
+});
+const subscriptionName = 'projects/add-subtract-445922/subscriptions/numbers-topic-sub';
+
+const messageHandler = (message) => {
+    try {
+        const data = JSON.parse(message.data.toString());
+        const {num1, num2, operation, id} = data;
+
+        let result;
+        if (operation === 'add') {
+            result = num1 + num2;
+        } else if (operation === 'subtract') {
+            result = num1 - num2;
+        } else {
+            throw new Error(`Invalid operation : ${operation}`);
+        }
+        console.log(`Request id : ${id}, operation : ${operation}, result : ${result}`);
+
+        message.ack();
+    } catch (error) {
+        console.error('Error procesing message', error);
+        message.nack();
+    }
+}
+
+pubSubClient.subscription(subscriptionName).on('message', messageHandler);

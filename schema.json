@@ -1,0 +1,23 @@
+{
+    "fields": [
+      {
+        "name": "num1",
+        "type": "float"
+      },
+      {
+        "name": "num2",
+        "type": "float"
+      },
+      {
+        "name": "operation",
+        "type": "string",
+        "description": "Specifies the operation: 'add' or 'subtract'"
+      },
+      {
+        "name": "requestId",
+        "type": "string",
+        "description": "A unique identifier for the API request"
+      }
+    ]
+  }
+  
