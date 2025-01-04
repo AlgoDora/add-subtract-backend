@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const publishMessage = require('./publisher.js');
+const listenForMessages = require('./subscriber.js');
 
 
 const app = express();
@@ -20,6 +21,8 @@ app.post('/call', async(req, res) => {
     const message = {num1, num2, operation, requestId : id};
     publishMessage(message, res);
 });
+
+listenForMessages();
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

@@ -8,7 +8,7 @@ const subscriptionName = 'projects/add-subtract-445922/subscriptions/numbers-top
 const messageHandler = (message) => {
     try {
         const data = JSON.parse(message.data.toString());
-        const {num1, num2, operation, id} = data;
+        const {num1, num2, operation, requestId} = data;
 
         let result;
         if (operation === 'add') {
@@ -18,7 +18,7 @@ const messageHandler = (message) => {
         } else {
             throw new Error(`Invalid operation : ${operation}`);
         }
-        console.log(`Request id : ${id}, operation : ${operation}, result : ${result}`);
+        console.log(`Request id : ${requestId}, operation : ${operation}, result : ${result}`);
 
         message.ack();
     } catch (error) {
@@ -27,4 +27,8 @@ const messageHandler = (message) => {
     }
 }
 
-pubSubClient.subscription(subscriptionName).on('message', messageHandler);
+const listenForMessages = () => {
+    pubSubClient.subscription(subscriptionName).on('message', messageHandler); 
+};
+
+module.exports = listenForMessages;
