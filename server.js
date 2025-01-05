@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const publishMessage = require('./publisher.js');
 const listenForMessages = require('./subscriber.js');
-
+require('./websocket.js');
 
 const app = express();
 const port = 3001;

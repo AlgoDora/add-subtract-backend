@@ -1,4 +1,5 @@
 const {PubSub} = require('@google-cloud/pubsub');
+const {clientMap} = require('./websocket.js');
 
 const pubSubClient = new PubSub({
     keyFilename: './add-subtract-key.json',
@@ -19,6 +20,13 @@ const messageHandler = (message) => {
             throw new Error(`Invalid operation : ${operation}`);
         }
         console.log(`Request id : ${requestId}, operation : ${operation}, result : ${result}`);
+
+        const client = clientMap.get(requestId);
+        if(client) {
+            client.send(JSON.stringify({requestId,result}));
+        } else {
+            console.error(`Client not found for request id : ${requestId}`);
+        }
 
         message.ack();
     } catch (error) {
