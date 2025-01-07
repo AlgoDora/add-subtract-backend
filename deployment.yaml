@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: add-subtract-backend
+spec:
+  replicas: 3  # Number of pods
+  selector:
+    matchLabels:
+      app: add-subtract-backend
+  template:
+    metadata:
+      labels:
+        app: add-subtract-backend
+    spec:
+      containers:
+        - name: add-subtract-backend
+          image: thelastone07/add-subtract-backend:latest
+          ports:
+            - containerPort: 3001
+            - containerPort: 8000
